@@ -1,73 +1,91 @@
 #include <stdio.h>
 #include <stdarg.h>
-#include "main.h"
+#include <unistd.h>
 
-/**
- * handle_conversion_specifier - Handles formatting
- * and printing of a conversion specifier.
- * @format: The conversion specifier character.
- * @args: The va_list containing the arguments.
- *
- * Return: The number of characters printed for the conversion specifier.
- */
-int handle_conversion_specifier(char format, va_list args)
+static int HANDLE_ERROR(const char *msg)
 {
-	char c;
-	char *str = NULL;
-
-	switch (format)
-	{
-		case 'c':
-			c = va_arg(args, int);
-
-			return (print_char(c));
-
-		case 's':
-			str = va_arg(args, char *);
-
-			return (print_string(str));
-
-		case '%':
-			return (print_char('%'));
-
-		default:
-			return (-1);
-	}
+    perror(msg);
+    return -1;
 }
-
-/**
- * _printf - Custom printf implementation that supports
- * character and string conversion specifiers.
- * @format: The format string containing conversion specifiers.
- * @...: The variable number of arguments to be formatted and printed.
- *
- * Return: The total number of characters printed.
- */
 int _printf(const char *format, ...)
 {
-	va_list args;
-	unsigned int count = 0;
+    va_list args;
+    int num, counter = 0, len = 0;
+    char c;
+    char *str1 = NULL;
+    char buffer[20];
+    /* Handling error mechanism if format is Null */
+    if (format == NULL)
+        return (HANDLE_ERROR("_printf: format is NULL"));
 
-	if (!format || (format[0] == '%' && !format[1]))
-		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
+    va_start(args, format);
 
-	va_start(args, format);
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '\0')
-				return (-1);
-			count += handle_conversion_specifier(*format, args);
-		}
-		else
-		{
-			count += print_char(*format);
-		}
-		format++;
-	}
-	return (count);
+    while (*format)
+    {
+        if (*format != '%')
+        {
+            if (write(1, format,1) < 0)
+                return (HANDLE_ERROR("_printf: write error"));
+            counter++;
+        }
+        else
+        {
+            format++;
+            if (*format == '\0')
+                break;
+            switch (*format)
+            {
+                case 'c':
+                {
+                    c = va_arg(args, int);
+                    if (write(1, &c, 1) < 0)
+                        return (HANDLE_ERROR("_printf: write error"));
+                    counter++;
+                    break;
+                }
+                case 's':
+                {
+                    str1 = va_arg(args, char*);
+                    if (str1 == NULL)
+                        str1 = "(null)";
+                    while (*str1)
+                    {
+                        if (write(1, str1, 1) < 0)
+                            return (HANDLE_ERROR("_printf: write error"));
+                        str1++;
+                        counter++;
+                    }
+                    break;
+                }
+                case '%':
+                {
+                    if (write(1, "%", 1) < 0)
+                        return (HANDLE_ERROR("_printf: write error"));
+                    counter++;
+                    break;
+                }
+                case 'd':
+                case 'i':
+                {
+                    num = va_arg(args, int);
+                    len = snprintf(buffer, sizeof(buffer), "%d", num);
+                    if (write(1, buffer, len) < 0)
+                        return (HANDLE_ERROR("_printf: write error"));
+                    counter += len;
+                    break;
+                }
+                default:
+                {
+                    if (write(1, format, 1) < 0)
+                        return (HANDLE_ERROR("_printf: write error"));
+                    counter ++;
+                }
+            }
+        }
+        format++;
+    }
+    va_end(args);
+    return (counter);
 }
+
+
