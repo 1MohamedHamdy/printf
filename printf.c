@@ -31,7 +31,7 @@ int handle_conversion_specifier(char format, va_list args)
 			return (print_char('%'));
 
 		default:
-			return (0);
+			return (-1);
 	}
 }
 
