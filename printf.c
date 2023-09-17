@@ -46,7 +46,10 @@ int handle_conversion_specifier(char format, va_list args)
 int _printf(const char *format, ...)
 {
 	va_list args;
-	int count = 0;
+	unsigned int count = 0;
+
+	if (!format)
+		return (-1);
 
 	va_start(args, format);
 	while (*format)
@@ -55,7 +58,7 @@ int _printf(const char *format, ...)
 		{
 			format++;
 			if (*format == '\0')
-				break;
+				return (-1);
 			count += handle_conversion_specifier(*format, args);
 		}
 		else
