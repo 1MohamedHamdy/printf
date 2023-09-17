@@ -1,22 +1,17 @@
-#include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include "main.h"
 
-static int HANDLE_ERROR(const char *msg)
-{
-    perror(msg);
-    return -1;
-}
+/**
+ * _printf - Produces output according to a format.
+ * @format: A character string containing zero or more directives.
+ *
+ * Return: The number of characters printed (excluding the null byte).
+ */
 int _printf(const char *format, ...)
 {
     va_list args;
-    int num, counter = 0, len = 0;
-    char c;
-    char *str1 = NULL;
-    char buffer[20];
-    /* Handling error mechanism if format is Null */
-    if (format == NULL)
-        return (HANDLE_ERROR("_printf: format is NULL"));
+    int count = 0;
 
     va_start(args, format);
 
@@ -24,68 +19,47 @@ int _printf(const char *format, ...)
     {
         if (*format != '%')
         {
-            if (write(1, format,1) < 0)
-                return (HANDLE_ERROR("_printf: write error"));
-            counter++;
+            write(1, format, 1);
+            count++;
         }
         else
         {
             format++;
             if (*format == '\0')
                 break;
-            switch (*format)
+            if (*format == 'c')
             {
-                case 'c':
+                char c = va_arg(args, int);
+                write(1, &c, 1);
+                count++;
+            }
+            else if (*format == 's')
+            {
+                char *str = va_arg(args, char *);
+                if (str == NULL)
+                    str = "(null)";
+                while (*str)
                 {
-                    c = va_arg(args, int);
-                    if (write(1, &c, 1) < 0)
-                        return (HANDLE_ERROR("_printf: write error"));
-                    counter++;
-                    break;
+                    write(1, str, 1);
+                    str++;
+                    count++;
                 }
-                case 's':
-                {
-                    str1 = va_arg(args, char*);
-                    if (str1 == NULL)
-                        str1 = "(null)";
-                    while (*str1)
-                    {
-                        if (write(1, str1, 1) < 0)
-                            return (HANDLE_ERROR("_printf: write error"));
-                        str1++;
-                        counter++;
-                    }
-                    break;
-                }
-                case '%':
-                {
-                    if (write(1, "%", 1) < 0)
-                        return (HANDLE_ERROR("_printf: write error"));
-                    counter++;
-                    break;
-                }
-                case 'd':
-                case 'i':
-                {
-                    num = va_arg(args, int);
-                    len = snprintf(buffer, sizeof(buffer), "%d", num);
-                    if (write(1, buffer, len) < 0)
-                        return (HANDLE_ERROR("_printf: write error"));
-                    counter += len;
-                    break;
-                }
-                default:
-                {
-                    if (write(1, format, 1) < 0)
-                        return (HANDLE_ERROR("_printf: write error"));
-                    counter ++;
-                }
+            }
+            else if (*format == '%')
+            {
+                write(1, "%", 1);
+                count++;
+            }
+            else
+            {
+                write(1, format - 1, 2);
+                count += 2;
             }
         }
         format++;
     }
-    va_end(args);
-    return (counter);
-}
 
+    va_end(args);
+    return (count);
+}
 
