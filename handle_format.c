@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "main.h"
 
 /**
@@ -22,6 +23,8 @@ int print_string(const char *str)
 {
 	int count = 0;
 
+	if (str == NULL)
+		return (-1);
 	while (*str)
 	{
 		_putchar(*str);
