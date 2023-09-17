@@ -64,10 +64,6 @@ static int handle_format(const char *format, va_list args)
 				return (HANDLE_ERROR("_printf: write error"));
 			counter++;
 			break;
-		default:
-			if (print_char(*format) < 0)
-				return (HANDLE_ERROR("_printf: write error"));
-			counter++;
 	}
 	return (counter);
 }
