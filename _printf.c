@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdarg.h>
+#include <unistd.h>
 #include "main.h"
 
 /**
@@ -14,42 +15,58 @@ int _printf(const char *format, ...)
 	int count = 0;
 
 	if (format == NULL)
-		return (HANDLE_ERROR());
+		return (-1);
 	va_start(args, format);
-	void (*print_funcs[])(va_list, int*) = {
-		NULL,
-		print_char,
-		print_string
-	};
-	for (; *format; format++)
+
+	while (*format)
 	{
 		if (*format != '%')
 		{
-			count += _putchar(*format);
+			count += print_char(*format);
 		}
 		else
 		{
 			format++;
 			if (*format == '\0')
-				return (HANDLE_ERROR());
-			int specifier_index = *format - 'c';
-
-			if (specifier_index >= 0 && specifier_index <= 2)
-			{
-				void (*print_func)(va_list, int*) = print_funcs[specifier_index];
-
-				if (print_func != NULL)
-				{
-					print_func(args, &count);
-				}
-			}
-			else
-			{
-				count += _putchar('%');
-				count += _putchar(*format);
-			}
+				return (-1);
+			count += process_format(&format, args);
 		}
+		format++;
 	}
 	va_end(args);
+	return (count);
+}
+
+/**
+ * process_format - Processes format specifiers.
+ * @format: Pointer to the format string.
+ * @args: Variable argument list.
+ *
+ * Return: The number of characters printed.
+ */
+int process_format(const char **format, va_list args)
+{
+	int count = 0;
+
+	if (**format == 'c')
+	{
+		char c = va_arg(args, int);
+
+		count += print_char(c);
+	}
+	else if (**format == 's')
+	{
+		char *str = va_arg(args, char *);
+
+		count += print_string(str);
+	}
+	else if (**format == '%')
+	{
+		count += print_char('%');
+	}
+	else
+	{
+		count += write(1, *format - 1, 2);
+	}
 	return (count);
 }
