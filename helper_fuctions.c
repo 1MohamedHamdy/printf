@@ -39,17 +39,16 @@ int print_string(char *str)
  */
 int print_integer(int num)
 {
-    int num_len = num < 0 ? 1 : 0;
-    int temp = num;
+	int num_len = num < 0 ? 1 : 0;
+	int temp = num;
+	char buffer[20];
 
-    while (temp != 0)
-    {
-        temp /= 10;
-        num_len++;
-    }
+	while (temp != 0)
+	{
+		temp /= 10;
+		num_len++;
+	}
 
-    char buffer[20];
-    snprintf(buffer, sizeof(buffer), "%d", num);
-
-    return (print_string(buffer));
+	snprintf(buffer, sizeof(buffer), "%d", num);
+	return (print_string(buffer));
 }

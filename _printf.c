@@ -65,10 +65,11 @@ int process_format(const char **format, va_list args)
 		count += print_char('%');
 	}
 	else if (**format == 'd' || **format == 'i')
-        {
-                int num = va_arg(args, int);
-                count += print_integer(num);
-        }
+	{
+		int num = va_arg(args, int);
+
+		count += print_integer(num);
+	}
 	else
 	{
 		count += write(1, *format - 1, 2);
