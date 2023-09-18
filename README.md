@@ -29,7 +29,7 @@ To successfully complete this project, we recommend reviewing the following conc
 
 - Printf Function Brief: Understanding the printf function's behavior.
 - Flowcharts :  flowcharts provide another way of approaching and/or understanding a workflow.
-- Technical Writing :  is an invaluable skill and an excellent way to articulate and share your knowledge. It’s not enough to just be able to code; being able to explain the concepts behind the code proves deeper understanding as well as the ability to communicate with others.
+
 
 ## Getting Started
 
