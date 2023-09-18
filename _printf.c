@@ -66,8 +66,8 @@ int process_format(const char **format, va_list args)
 	}
 	else if (**format == 'd' || **format == 'i')
         {
-        int num = va_arg(args, int);
-        count += print_integer(num);
+                int num = va_arg(args, int);
+                count += print_integer(num);
         }
 	else
 	{
