@@ -72,10 +72,8 @@ int process_format(const char **format, va_list args)
 	}
 	else if (**format == 'b')
 	{
-		int num = va_arg(args, int);
+		unsigned int num = va_arg(args, unsigned int);
 
-		if (num < 0)
-			return (-1);
 		count += print_binary(num);
 	}
 	else

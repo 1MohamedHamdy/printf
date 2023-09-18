@@ -64,25 +64,26 @@ int print_binary(unsigned int num)
 	int binary_size = sizeof(num) * 8;
 	char binary[33];
 
-	for (i = 0; i < binary_size; i++)
+	if (num == 0)
+		count += print_char('0');
+	else
 	{
-		binary[i] = '0';
-	}
-	binary[binary_size] = '\0';
+		for (i = 0; i < binary_size; i++)
+		{
+			binary[i] = '0';
+		}
+		binary[binary_size] = '\0';
 
-	for (i = binary_size - 1; i >= 0; i--)
-	{
-		binary[i] = (num & 1) ? '1' : '0';
-		num >>= 1;
+		for (i = binary_size - 1; i >= 0; i--)
+		{
+			binary[i] = (num & 1) ? '1' : '0';
+			num >>= 1;
+		}
+		while (binary[start_index] == '0' && start_index < binary_size)
+		{
+			start_index++;
+		}
+		count += print_string(&binary[start_index]);
 	}
-
-	while (binary[start_index] == '0' && start_index < binary_size)
-	{
-		start_index++;
-	}
-	count += print_string(&binary[start_index]);
-
 	return (count);
 }
-
-
