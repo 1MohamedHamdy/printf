@@ -77,7 +77,8 @@ int main(void)
 
 - `main.c`: Contains the main function and example usage.
 - `main.h`: Header file with function prototypes.
-- `printf.c`: Implementation of the `_printf` function.
+- `_printf.c`: Implementation of the `_printf` function.
+- `helper_fuctions`: Implementation  for help `printf` functions.
 
 ## Contributors
 
