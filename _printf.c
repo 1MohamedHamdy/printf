@@ -47,10 +47,10 @@ int _printf(const char *format, ...)
 
 int process_format(const char **format, va_list args)
 {
-	int counter, count = 0;
+	int count = 0;
 
-	counter = process_return(&format, &count, args);
-	return (counter);
+	process_return(&format, &count, args);
+	return (count);
 }
 
 /**
