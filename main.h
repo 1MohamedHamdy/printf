@@ -9,6 +9,23 @@ int _printf(const char *format, ...);
 int process_format(const char **format, va_list args);
 int print_integer (int num);
 int print_binary(unsigned int num);
+
+
+/**
+* Task 3 
+*/
+/**
+ * struct specifier - Struct token
+ *
+ * @specifier: format token
+ * @f: The function associated
+ */
+typedef struct specifier
+{
+	char *specifier;
+	int (*f)(va_list, params_t *);
+} specifier_t;
+
 int print_unsigned(va_list args, params_t *params);
 int print_hex(va_list args, params_t *params);
 int print_HEX(va_list args, params_t *params);
