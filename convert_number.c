@@ -7,18 +7,18 @@
  *
  * Return: bytes printed
  */
-int print_hex(va_list ap, params_t *params)
+int print_hex( va_list args, params_t *params)
 {
 unsigned long l;
 int c = 0;
 char *str;
 
 if (params->l_modifier)
-l = (unsigned long)va_arg(ap, unsigned long);
+l = (unsigned long)va_arg(args, unsigned long);
 else if (params->h_modifier)
-l = (unsigned short int)va_arg(ap, unsigned int);
+l = (unsigned short int)va_arg(args, unsigned int);
 else
-l = (unsigned int)va_arg(ap, unsigned int);
+l = (unsigned int)va_arg(args, unsigned int);
 
 str = convert(l, 16, CONVERT_UNSIGNED | CONVERT_LOWERCASE, params);
 if (params->hashtag_flag && l)
@@ -37,16 +37,16 @@ return (c += print_number(str, params));
  *
  * Return: bytes printed
  */
-int print_HEX(va_list ap, params_t *params)
+int print_HEX(va_list args, params_t *params)
 {
 unsigned long l;
 int c = 0;
 char *str;
 
 if (params->l_modifier)
-l = (unsigned long)va_arg(ap, unsigned long);
+l = (unsigned long)va_arg(args, unsigned long);
 else if (params->h_modifier)
-l = (unsigned short int)va_arg(ap, unsigned int);
+l = (unsigned short int)va_arg(args, unsigned int);
 else
 l = (unsigned int)va_arg(ap, unsigned int);
 
@@ -68,18 +68,18 @@ return (c += print_number(str, params));
  *
  * Return: bytes printed
  */
-int print_octal(va_list ap, params_t *params)
+int print_octal(va_list args, params_t *params)
 {
 unsigned long l;
 char *str;
 int c = 0;
 
 if (params->l_modifier)
-l = (unsigned long)va_arg(ap, unsigned long);
+l = (unsigned long)va_arg(args, unsigned long);
 else if (params->h_modifier)
-l = (unsigned short int)va_arg(ap, unsigned int);
+l = (unsigned short int)va_arg(args, unsigned int);
 else
-l = (unsigned int)va_arg(ap, unsigned int);
+l = (unsigned int)va_arg(args, unsigned int);
 str = convert(l, 8, CONVERT_UNSIGNED, params);
 
 if (params->hashtag_flag && l)
