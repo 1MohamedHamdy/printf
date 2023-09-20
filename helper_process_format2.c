@@ -28,6 +28,6 @@ int process_percent(void)
  */
 int process_default(const char ***format)
 {
-	return (write(1, *format - 1, 2));
+	return (write(1, **format - 1, 2));
 }
 
