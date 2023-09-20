@@ -86,7 +86,6 @@ int process_return(const char ***format, int *count, va_list args)
 		return (*count += process_hex_upper(args));
 	else
 		return (*count += process_default(format));
-	}
 }
 
 
