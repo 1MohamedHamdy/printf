@@ -87,24 +87,3 @@ int print_binary(unsigned int num)
 	}
 	return (count);
 }
-/**
- * print_integer - Helper function to print an integer.
- * @num: The integer to print.
- *
- * Return: The number of characters printed.
- */
-int print_uinteger(unsigned int num)
-{
-	int num_len = num < 0 ? 1 : 0;
-	int temp = num;
-	char buffer[20];
-
-	while (temp != 0)
-	{
-		temp /= 10;
-		num_len++;
-	}
-
-	snprintf(buffer, sizeof(buffer), "%d", num);
-	return (print_string(buffer));
-}
