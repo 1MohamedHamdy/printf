@@ -76,12 +76,7 @@ int process_format(const char **format, va_list args)
 
 		count += print_binary(num);
 	}
-		else if (**format == 'u' || **format == 'o' || **format  == 'x' || **format == 'X')
-	{
-		int num = va_arg(args, int);
 
-		count += print_integer(num);
-	}
 	else
 	{
 		count += write(1, *format - 1, 2);
