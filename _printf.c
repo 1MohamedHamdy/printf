@@ -44,43 +44,54 @@ int _printf(const char *format, ...)
  *
  * Return: The number of characters printed.
  */
+
 int process_format(const char **format, va_list args)
 {
-	int count = 0;
+	int counter, count = 0;
 
-	if (**format == 'c')
-	{
-		char c = va_arg(args, int);
-
-		count += print_char(c);
-	}
-	else if (**format == 's')
-	{
-		char *str = va_arg(args, char *);
-
-		count += print_string(str);
-	}
-	else if (**format == '%')
-	{
-		count += print_char('%');
-	}
-	else if (**format == 'd' || **format == 'i')
-	{
-		int num = va_arg(args, int);
-
-		count += print_integer(num);
-	}
-	else if (**format == 'b')
-	{
-		unsigned int num = va_arg(args, unsigned int);
-
-		count += print_binary(num);
-	}
-	
-	else
-	{
-		count += write(1, *format - 1, 2);
-	}
-	return (count);
-
+	counter = process_return(&format, &count, args);
+	return (counter);
 }
+
+/**
+ * process_return - Processes and handles format specifiers.
+ * @format: Pointer to the format string.
+ * @count: Pointer to the character count.
+ * @args: Variable argument list.
+ *
+ * This function processes and handles format specifiers, calling appropriate
+ * helper functions to print characters, strings, integers, and more.
+ *
+ * Return: The number of characters printed.
+ */
+int process_return(const char ***format, int *count, va_list args)
+{
+	switch (***format)
+	{
+		case 'c':
+			return (*count += process_char(args));
+		case 's':
+			return (*count += process_string(args));
+		case '%':
+			return (*count += process_percent());
+		case 'd':
+		case 'i':
+			return (*count += process_integer(args));
+		case 'b':
+			return (*count += process_binary(args));
+		case 'u':
+			return (*count += process_unsigned_int(args));
+		case 'o':
+			return (*count += process_octal(args));
+		case 'x':
+			return (*count += process_hex_lower(args));
+		case 'X':
+			return (*count += process_hex_upper(args));
+		default:
+			return (*count += process_default(format));
+	}
+}
+
+
+
+
