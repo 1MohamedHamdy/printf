@@ -49,43 +49,38 @@ int process_format(const char **format, va_list args)
 {
 	int count = 0;
 
-	process_return(&format, &count, args);
-	return (count);
-}
-
-/**
- * process_return - Processes and handles format specifiers.
- * @format: Pointer to the format string.
- * @count: Pointer to the character count.
- * @args: Variable argument list.
- *
- * This function processes and handles format specifiers, calling appropriate
- * helper functions to print characters, strings, integers, and more.
- *
- * Return: The number of characters printed.
- */
-int process_return(const char ***format, int *count, va_list args)
-{
-	switch (***format)
+	switch (**format)
 	{
 		case 'c':
-			return (*count += process_char(args));
+			count += process_char(args);
+			break;
 		case 's':
-			return (*count += process_string(args));
+			count += process_string(args);
+			break;
+		case '%':
+			count += process_percent();
+			break;
 		case 'd':
 		case 'i':
-			return (*count += process_integer(args));
+			count += process_integer(args);
+			break;
 		case 'b':
-			return (*count += process_binary(args));
+			count += process_binary(args);
+			break;
 		case 'u':
-			return (*count += process_unsigned_int(args));
+			count += process_unsigned_int(args);
+			break;
 		case 'o':
-			return (*count += process_octal(args));
+			count += process_octal(args);
+			break;
 		case 'x':
-			return (*count += process_hex_lower(args));
+			count += process_hex_lower(args);
+			break;
 		case 'X':
-			return (*count += process_hex_upper(args));
+			count += process_hex_upper(args);
+			break;
 		default:
-			return (*count += process_default(format));
+			count += process_default(format);
 	}
+	return (count);
 }

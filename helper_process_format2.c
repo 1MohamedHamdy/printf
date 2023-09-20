@@ -26,8 +26,8 @@ int process_percent(void)
  *
  * Return: The number of characters printed.
  */
-int process_default(const char ***format)
+int process_default(const char **format)
 {
-	return (write(1, **format - 1, 2));
+	return (write(1, *format - 1, 2));
 }
 
