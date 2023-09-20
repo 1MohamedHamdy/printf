@@ -79,8 +79,43 @@ int process_format(const char **format, va_list args)
 		case 'X':
 			count += process_hex_upper(args);
 			break;
+		case 'S':
+			count += process_custom_string(args);
+			break;
 		default:
 			count += process_default(format);
+	}
+	return (count);
+}
+
+/**
+ * process_custom_string - Processes the custom string specifier %S.
+ *
+ * @args: Variable argument list.
+ *
+ * Return: The number of characters printed.
+ */
+int process_custom_string(va_list args)
+{
+	int count = 0;
+	char *str = va_arg(args, char *);
+
+	if (str == NULL)
+		return (print_string("(null)"));
+	while (*str)
+	{
+		if ((*str > 0 && *str < 32) || *str >= 127)
+		{
+			count += print_char('\\');
+			count += print_char('x');
+			count += print_hex_upper(*str / 16);
+			count += print_hex_upper(*str % 16);
+		}
+		else
+		{
+			count += print_char(*str);
+		}
+		str++;
 	}
 	return (count);
 }

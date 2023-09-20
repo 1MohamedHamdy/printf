@@ -23,7 +23,7 @@ int process_hex_lower(va_list args);
 int process_hex_upper(va_list args);
 int _printf(const char *format, ...);
 int process_format(const char **format, va_list args);
-
+int process_custom_string(va_list args);
 
 #endif /* _MAIN_H_ */
 
