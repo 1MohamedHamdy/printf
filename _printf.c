@@ -66,28 +66,28 @@ int process_format(const char **format, va_list args)
  */
 int process_return(const char ***format, int *count, va_list args)
 {
-	if (***format == 'c')
-		return (*count += process_char(args));
-	else if (***format == 's')
-		return (*count += process_string(args));
-	else if (***format == '%')
-		return (*count += process_percent());
-	else if (***format == 'd' || ***format == 'i')
-		return (*count += process_integer(args));
-	else if (***format == 'b')
-		return (*count += process_binary(args));
-	else if (***format == 'u')
-		return (*count += process_unsigned_int(args));
-	else if (***format == 'o')
-		return (*count += process_octal(args));
-	else if (***format == 'x')
-		return (*count += process_hex_lower(args));
-	else if (***format == 'X')
-		return (*count += process_hex_upper(args));
-	else
-		return (*count += process_default(format));
+	switch (***format)
+	{
+		case 'c':
+			return (*count += process_char(args));
+		case 's':
+			return (*count += process_string(args));
+		case '%':
+			return (*count += process_percent());
+		case 'd':
+		case 'i':
+			return (*count += process_integer(args));
+		case 'b':
+			return (*count += process_binary(args));
+		case 'u':
+			return (*count += process_unsigned_int(args));
+		case 'o':
+			return (*count += process_octal(args));
+		case 'x':
+			return (*count += process_hex_lower(args));
+		case 'X':
+			return (*count += process_hex_upper(args));
+		default:
+			return (*count += process_default(format));
+	}
 }
-
-
-
-
