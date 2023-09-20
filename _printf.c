@@ -72,8 +72,6 @@ int process_return(const char ***format, int *count, va_list args)
 			return (*count += process_char(args));
 		case 's':
 			return (*count += process_string(args));
-		case '%':
-			return (*count += process_percent());
 		case 'd':
 		case 'i':
 			return (*count += process_integer(args));
