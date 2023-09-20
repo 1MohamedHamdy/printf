@@ -13,6 +13,7 @@ int print_unsigned(va_list args, params_t *params);
 int print_hex(va_list args, params_t *params);
 int print_HEX(va_list args, params_t *params);
 int print_octal(va_list args, params_t *params);
+void init_params(params_t *params, va_list args);
 
 
 #endif /* _MAIN_H_ */
