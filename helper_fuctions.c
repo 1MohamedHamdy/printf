@@ -39,17 +39,51 @@ int print_string(char *str)
  */
 int print_integer(int num)
 {
-    int num_len = num < 0 ? 1 : 0;
-    int temp = num;
+	int num_len = num < 0 ? 1 : 0;
+	int temp = num;
+	char buffer[20];
 
-    while (temp != 0)
-    {
-        temp /= 10;
-        num_len++;
-    }
+	while (temp != 0)
+	{
+		temp /= 10;
+		num_len++;
+	}
 
-    char buffer[20];
-    snprintf(buffer, sizeof(buffer), "%d", num);
+	snprintf(buffer, sizeof(buffer), "%d", num);
+	return (print_string(buffer));
+}
+/**
+ * print_binary - Helper function to print an integer in binary.
+ * @num: The integer to print in binary.
+ *
+ * Return: The number of characters printed.
+ */
+int print_binary(unsigned int num)
+{
+	int i, count = 0, start_index = 0;
+	int binary_size = sizeof(num) * 8;
+	char binary[33];
 
-    return (print_string(buffer));
+	if (num == 0)
+		count += print_char('0');
+	else
+	{
+		for (i = 0; i < binary_size; i++)
+		{
+			binary[i] = '0';
+		}
+		binary[binary_size] = '\0';
+
+		for (i = binary_size - 1; i >= 0; i--)
+		{
+			binary[i] = (num & 1) ? '1' : '0';
+			num >>= 1;
+		}
+		while (binary[start_index] == '0' && start_index < binary_size)
+		{
+			start_index++;
+		}
+		count += print_string(&binary[start_index]);
+	}
+	return (count);
 }
