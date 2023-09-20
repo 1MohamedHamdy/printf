@@ -9,6 +9,10 @@ int _printf(const char *format, ...);
 int process_format(const char **format, va_list args);
 int print_integer (int num);
 int print_binary(unsigned int num);
-int print_unsigned(va_list ap, params_t *params);
+int print_unsigned(va_list args, params_t *params);
+int print_hex(va_list args, params_t *params);
+int print_HEX(va_list args, params_t *params);
+int print_octal(va_list args, params_t *params);
+
 
 #endif /* _MAIN_H_ */
